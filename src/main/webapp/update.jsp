@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: zilenka
-  Date: 29.12.2022
-  Time: 16:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,15 +5,15 @@
 </head>
 <body>
 <h2>Update user by id = <%out.println(session.getAttribute("id"));%>:</h2>
-<%@ page import="com.example.jenkinsapplication.entity.User" %>
+<%@ page import="org.greenGroup.entity.User" %>
 <%User user = (User)session.getAttribute("user");%>
 <form method="post">
   <label>Name:
-    <input type="text" name="name" value="<%=user.getName()%>"><br />
+    <input type="text" name="name" value="<%=user.getFirstName()%>"><br />
   </label>
 
   <label>Surname:
-    <input type="text" name="surname" value="<%=user.getSurname()%>"><br />
+    <input type="text" name="surname" value="<%=user.getLastName()%>"><br />
   </label>
 
   <label>Age:
