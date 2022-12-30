@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserDao {
     private static UserDao instance = new UserDao();
-    private static final String URL = "jdbc:postgresql://192.168.31.239:5432/testdb";
+    private static final String URL = "jdbc:postgresql://192.168.31.238:5432/testdb";
     private static final String USERNAME = "testuser";
     private static final String PASSWORD = "veryStrongPass";
 
