@@ -30,12 +30,12 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        long id = (long)session.getAttribute("id");
+        Long id = (Long)session.getAttribute("id");
 
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         int age = Integer.parseInt(request.getParameter("age"));
-        User user = new User(0,name, surname, age);
+        User user = new User(name, surname, age);
         userService = (UserService) request.getServletContext().getAttribute("userService");
         userService.updateUserById(user, id);
         response.sendRedirect("users-list");

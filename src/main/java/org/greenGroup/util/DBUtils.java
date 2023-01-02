@@ -6,19 +6,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBUtils {
-    private static DBUtils db = null;
 
-    public static DBUtils createDB() {
-        if (db == null) {
-            db = new DBUtils();
+    private DBUtils() {}
+
+    public void dropUsersTable() {
+        try (Connection connection = ConnectionCreator.createConnection();
+             Statement statement = connection.createStatement()) {
+            String sql = "DROP TABLE USERS";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.getStackTrace();
         }
-        return db;
     }
 
-    private DBUtils() {
-        createUsersTable();
+    public void clearUsersTable() {
+        try (Connection connection = ConnectionCreator.createConnection();
+             Statement statement = connection.createStatement()) {
+            String sql = "DELETE FROM USERS";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.getStackTrace();
+        }
     }
-
 
     public void createUsersTable() {
         try (Connection connection = ConnectionCreator.createConnection();

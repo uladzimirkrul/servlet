@@ -66,7 +66,7 @@ public class UserDao {
         return users;
     }
 
-    public User saveUser(User user) {
+    public void saveUser(User user) {
         String SQL = "INSERT INTO USERS (first_name, last_name, age) VALUES (?,?,?)";
 
         try(Connection connection = ConnectionCreator.createConnection();
@@ -82,17 +82,16 @@ public class UserDao {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
-            if(resultSet != null && resultSet.next()) {
+            if (resultSet != null && resultSet.next()) {
                 Long id = preparedStatement.getGeneratedKeys().getLong(1);
                 user.setId(id);
-                return user;
+            } else {
+                throw new RuntimeException();
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        throw new RuntimeException();
     }
 
     public int deleteUserByLastName(String lastName) {
@@ -114,7 +113,7 @@ public class UserDao {
         return affectedRows;
     }
 
-    public int deleteUserById(long id) {
+    public int deleteUserById(Long id) {
         String SQL = "DELETE FROM users WHERE id = ?";
 
         int affectedRows = 0;
@@ -130,13 +129,12 @@ public class UserDao {
             connection.commit();
 
         } catch (SQLException ex) {
-
             System.out.println(ex.getMessage());
         }
         return affectedRows;
     }
 
-    public int updateUserById(User user, long id) {
+    public int updateUserById(User user, Long id) {
         String SQL = "UPDATE users SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
 
         int affectedRows = 0;
