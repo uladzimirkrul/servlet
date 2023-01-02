@@ -1,5 +1,6 @@
 package org.greenGroup.dao;
 
+import org.greenGroup.constant.SqlRequestConstant;
 import org.greenGroup.util.ConnectionCreator;
 import org.greenGroup.entity.User;
 
@@ -24,10 +25,9 @@ public class UserDao {
     }
 
     public Optional<User> getUserById(Long id) {
-        String SQL = "SELECT * FROM users WHERE id = ?";
 
         try (Connection connection = ConnectionCreator.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.SELECT_ALL_FROM_USERS_BY_ID)) {
 
             connection.setTransactionIsolation(transactionIsolation);
 
@@ -46,11 +46,9 @@ public class UserDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String SQL = "SELECT * FROM users";
-
 
         try (Connection connection = ConnectionCreator.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.SELECT_ALL_FROM_USERS)) {
 
             connection.setTransactionIsolation(transactionIsolation);
 
@@ -67,10 +65,10 @@ public class UserDao {
     }
 
     public void saveUser(User user) {
-        String SQL = "INSERT INTO USERS (first_name, last_name, age) VALUES (?,?,?)";
 
         try(Connection connection = ConnectionCreator.createConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.INSERT_INTO_USERS_BY_VALUES,
+                    Statement.RETURN_GENERATED_KEYS)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
 
@@ -93,7 +91,7 @@ public class UserDao {
             ex.printStackTrace();
         }
     }
-
+//Нужно удалить
     public int deleteUserByLastName(String lastName) {
         String SQL = "DELETE FROM users WHERE last_name = ?";
 
@@ -114,12 +112,10 @@ public class UserDao {
     }
 
     public int deleteUserById(Long id) {
-        String SQL = "DELETE FROM users WHERE id = ?";
-
         int affectedRows = 0;
 
         try (Connection connection = ConnectionCreator.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.DELETE_FROM_USERS_BY_ID)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
 
@@ -135,12 +131,10 @@ public class UserDao {
     }
 
     public int updateUserById(User user, Long id) {
-        String SQL = "UPDATE users SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
-
         int affectedRows = 0;
 
         try (Connection connection = ConnectionCreator.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.UPDATE_USERS_BY_VALUES)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
             preparedStatement.setString(1, user.getFirstName());
