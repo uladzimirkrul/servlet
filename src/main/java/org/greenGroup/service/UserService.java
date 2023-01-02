@@ -9,23 +9,23 @@ import java.util.List;
 public class UserService {
     private final UserDao userDao;
 
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
+    public UserService() {
+        userDao = new UserDao();
     }
 
     public User saveUser(User user) {
         return userDao.saveUser(user);
     }
 
-    public int deleteUserById(long id) {
+    public int deleteUserById(Long id) {
         return userDao.deleteUserById(id);
     }
 
-    public int updateUserById(User user, long id) {
+    public int updateUserById(User user, Long id) {
         return userDao.updateUserById(user, id);
     }
 
-    public User getUserById(long id) {
+    public User getUserById(Long id) {
         return userDao.getUserById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 

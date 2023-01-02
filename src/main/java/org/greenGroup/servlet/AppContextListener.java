@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebListener;
 public class AppContextListener implements ServletContextListener{
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext ctx = servletContextEvent.getServletContext();
-        UserService userService = new UserService(new UserDao(DBUtils.createDB()));
+        UserService userService = new UserService();
         ctx.setAttribute("userService", userService);
     }
 }
