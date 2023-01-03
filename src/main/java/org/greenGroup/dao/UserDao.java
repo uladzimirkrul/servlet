@@ -91,25 +91,6 @@ public class UserDao {
             ex.printStackTrace();
         }
     }
-//Нужно удалить
-    public int deleteUserByLastName(String lastName) {
-        String SQL = "DELETE FROM users WHERE last_name = ?";
-
-        int affectedRows = 0;
-
-        try (Connection connection = ConnectionCreator.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-            connection.setTransactionIsolation(transactionIsolation);
-            connection.setAutoCommit(false);
-            preparedStatement.setString(1,lastName);
-
-            affectedRows = preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return affectedRows;
-    }
 
     public int deleteUserById(Long id) {
         int affectedRows = 0;
