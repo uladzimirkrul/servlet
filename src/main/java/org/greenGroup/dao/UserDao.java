@@ -1,8 +1,7 @@
 package org.greenGroup.dao;
 
-
-
-import org.greenGroup.util.DBUtils;
+import org.greenGroup.constant.SqlRequestConstant;
+import org.greenGroup.util.ConnectionCreator;
 import org.greenGroup.entity.User;
 
 import java.sql.*;
@@ -11,33 +10,32 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDao {
-
-    private final DBUtils database;
     private final int transactionIsolation = Connection.TRANSACTION_REPEATABLE_READ;
 
-    public UserDao(DBUtils database) {
-        this.database = database;
+    public UserDao() {
     }
 
     private User extractUserFromResulSe(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getInt("id") );
+        user.setId(rs.getLong("id") );
         user.setFirstName(rs.getString("first_name") );
         user.setLastName(rs.getString("last_name"));
         user.setAge(rs.getInt("age"));
         return user;
     }
 
-    public Optional<User> getUserById(long id) {
-        String SQL = "SELECT * FROM users WHERE id=";
+    public Optional<User> getUserById(Long id) {
 
-        try (Connection connection = database.getConnection()){
+        try (Connection connection = ConnectionCreator.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.SELECT_ALL_FROM_USERS_BY_ID)) {
+
             connection.setTransactionIsolation(transactionIsolation);
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(SQL + id);
 
-            if(rs.next()) {
-                return Optional.of(extractUserFromResulSe(rs));
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return Optional.of(extractUserFromResulSe(resultSet));
             }
 
         } catch (SQLException ex) {
@@ -48,17 +46,16 @@ public class UserDao {
 
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String SQL = "SELECT * FROM users";
 
+        try (Connection connection = ConnectionCreator.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.SELECT_ALL_FROM_USERS)) {
 
-        try(Connection connection = database.getConnection();
-            Statement stmt = connection.createStatement()) {
             connection.setTransactionIsolation(transactionIsolation);
 
-            ResultSet rs = stmt.executeQuery(SQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (rs.next()) {
-                users.add(extractUserFromResulSe(rs));
+            while (resultSet.next()) {
+                users.add(extractUserFromResulSe(resultSet));
             }
 
         } catch (SQLException ex) {
@@ -67,45 +64,46 @@ public class UserDao {
         return users;
     }
 
-    public User saveUser(User user) {
-        String SQL = "INSERT INTO USERS (first_name, last_name, age) VALUES (?,?,?)";
+    public void saveUser(User user) {
 
-        try(Connection connection = database.getConnection();
-            PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try(Connection connection = ConnectionCreator.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.INSERT_INTO_USERS_BY_VALUES,
+                    Statement.RETURN_GENERATED_KEYS)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
-            ps.setString(1, user.getFirstName());
-            ps.setString(2, user.getLastName());
-            ps.setInt(3,user.getAge());
-            ps.executeUpdate();
+
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setInt(3,user.getAge());
+            preparedStatement.executeUpdate();
             connection.commit();
 
-            ResultSet rs = ps.getGeneratedKeys();
-            if(rs != null && rs.next()) {
-                long id = ps.getGeneratedKeys().getLong(1);
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet != null && resultSet.next()) {
+                Long id = preparedStatement.getGeneratedKeys().getLong(1);
                 user.setId(id);
-                return user;
+            } else {
+                throw new RuntimeException();
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        throw new RuntimeException();
     }
-
+//Нужно удалить
     public int deleteUserByLastName(String lastName) {
         String SQL = "DELETE FROM users WHERE last_name = ?";
 
         int affectedRows = 0;
 
-        try (Connection connection = database.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(SQL)) {
+        try (Connection connection = ConnectionCreator.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
-            pstmt.setString(1,lastName);
+            preparedStatement.setString(1,lastName);
 
-            affectedRows = pstmt.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -113,43 +111,38 @@ public class UserDao {
         return affectedRows;
     }
 
-    public int deleteUserById(long id) {
-        String SQL = "DELETE FROM users WHERE id = ?";
-
+    public int deleteUserById(Long id) {
         int affectedRows = 0;
 
-        try (Connection connection = database.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(SQL)) {
+        try (Connection connection = ConnectionCreator.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.DELETE_FROM_USERS_BY_ID)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
 
-            pstmt.setLong(1,id);
+            preparedStatement.setLong(1,id);
 
-            affectedRows = pstmt.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
 
         } catch (SQLException ex) {
-
             System.out.println(ex.getMessage());
         }
         return affectedRows;
     }
 
-    public int updateUserById(User user, long id) {
-        String SQL = "UPDATE users SET first_name = ?, last_name = ?, age = ? WHERE id = ?";
-
+    public int updateUserById(User user, Long id) {
         int affectedRows = 0;
 
-        try (Connection connection = database.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(SQL)) {
+        try (Connection connection = ConnectionCreator.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.UPDATE_USERS_BY_VALUES)) {
             connection.setTransactionIsolation(transactionIsolation);
             connection.setAutoCommit(false);
-            pstmt.setString(1, user.getFirstName());
-            pstmt.setString(2, user.getLastName());
-            pstmt.setInt(3, user.getAge());
-            pstmt.setLong(4, id);
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setInt(3, user.getAge());
+            preparedStatement.setLong(4, id);
 
-            affectedRows = pstmt.executeUpdate();
+            affectedRows = preparedStatement.executeUpdate();
             connection.commit();
 
         } catch (SQLException ex) {

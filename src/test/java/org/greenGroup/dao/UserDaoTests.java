@@ -20,7 +20,7 @@ public class UserDaoTests {
         user.setFirstName("Vasya");
         user.setLastName("vasilev");
         user.setAge(27);
-        user.setId(22);
+        user.setId(22l);
     }
 
     @Test

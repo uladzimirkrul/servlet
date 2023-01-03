@@ -28,8 +28,8 @@ public class AddUserServlet extends HttpServlet {
         userService = (UserService) request.getServletContext().getAttribute("userService");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
-        int age = Integer.valueOf(request.getParameter("age"));
-        userService.saveUser(new User(0, firstName, lastName, age));
+        int age = Integer.parseInt(request.getParameter("age"));
+        userService.saveUser(new User(firstName, lastName, age));
         response.sendRedirect("users-list");
     }
 }
