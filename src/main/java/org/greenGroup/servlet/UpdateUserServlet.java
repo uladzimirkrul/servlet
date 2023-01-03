@@ -19,7 +19,7 @@ public class UpdateUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         long id = Long.parseLong(request.getParameter("id"));
         userService = (UserService) request.getServletContext().getAttribute("userService");
-        User user = userService.getUserById(id);
+        User user = userService.readUserById(id);
         HttpSession session = request.getSession();
         session.setAttribute("id", id);
         session.setAttribute("user", user);

@@ -24,7 +24,7 @@ public class UserDao {
         return user;
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> readUserById(Long id) {
 
         try (Connection connection = ConnectionCreator.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.SELECT_ALL_FROM_USERS_BY_ID)) {
@@ -44,7 +44,7 @@ public class UserDao {
         return Optional.empty();
     }
 
-    public List<User> getAllUsers() {
+    public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
 
         try (Connection connection = ConnectionCreator.createConnection();

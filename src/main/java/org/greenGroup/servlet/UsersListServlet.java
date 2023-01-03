@@ -17,7 +17,7 @@ public class UsersListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = (UserService) request.getServletContext().getAttribute("userService");
-        List<User> users = userService.getAllUsers();
+        List<User> users = userService.readAllUsers();
         HttpSession session = request.getSession();
         session.setAttribute("users", users);
         response.sendRedirect("list.jsp");

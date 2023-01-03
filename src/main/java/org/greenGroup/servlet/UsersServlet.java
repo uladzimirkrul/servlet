@@ -20,7 +20,7 @@ public class UsersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         userService = (UserService) request.getServletContext().getAttribute("userService");
-        List<User> users = userService.getAllUsers();
+        List<User> users = userService.readAllUsers();
         request.setAttribute("users", users);
         request.getRequestDispatcher("Users.jsp").forward(request, response);
     }
