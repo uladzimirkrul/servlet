@@ -11,9 +11,10 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+
         stage('Deploy') {
             steps {
-                sshagent(['${env.tomcatcreds}']) {
+                sshagent(['tomcat-ssh']) {
                     sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}/webapps/ROOT.war'
                 }
             }
