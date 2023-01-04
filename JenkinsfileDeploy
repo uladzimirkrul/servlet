@@ -11,7 +11,6 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-
         stage('Deploy') {
             steps {
                 sshagent(['tomcat-ssh']) {
