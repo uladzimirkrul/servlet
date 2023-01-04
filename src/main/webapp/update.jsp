@@ -7,7 +7,7 @@
 <h2>Update user by id = <%out.println(session.getAttribute("id"));%>:</h2>
 <%@ page import="org.greenGroup.entity.User" %>
 <%User user = (User)session.getAttribute("user");%>
-<form method="post" action="/front-controller?command=SaveUpdates">
+<form method="post" action="front-controller?command=SaveUpdates">
   <label>Name:
     <input type="text" name="name" minlength="2" maxlength="30" value="<%=user.getFirstName()%>"><br />
   </label>

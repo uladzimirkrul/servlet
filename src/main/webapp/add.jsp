@@ -4,7 +4,7 @@
     <title>Add user</title>
 </head>
 <body>
-<form method="post" action="/front-controller?command=SaveUser">
+<form method="post" action="front-controller?command=SaveUser">
     <label>Name:
         <input required = "true" type="text" name="firstName" minlength="2"
                maxlength="30" pattern="[a-zA-Zа-яА-Я]*" placeholder="only letters are allowed"><br />
