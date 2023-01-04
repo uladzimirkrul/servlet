@@ -6,9 +6,16 @@ pipeline {
     }
 
     stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
         stage('Deploy') {
             steps {
-                sh "mvn -Dmaven.test.skip=true tomcat7:redeploy"
+                sshagent(['tomcat-ssh']) {
+                    sh 'scp ${workspace}/target/*.war ${tomcatpath}/webapps/ROOT.war'
+                }
             }
         }
     }
