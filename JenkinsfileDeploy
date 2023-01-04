@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sshagent(['${tomcatcreds}']) {
+                sshagent(['${env.tomcatcreds}']) {
                     sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}/webapps/ROOT.war'
                 }
             }
