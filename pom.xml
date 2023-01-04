@@ -25,31 +25,9 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.3.1</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.tomcat.maven</groupId>
-                    <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.2</version>
-                    <configuration>
-                        <url>http://192.168.1.240:8085/manager/text</url>
-                        <server>TomcatServer</server>
-                        <path>/myapplication</path>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
-    <profiles>
-        <profile>
-            <id>TomcatServer</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <tomcat-server>TomcatServer</tomcat-server>
-                <tomcat-url>http://192.168.31.240:8085/manager</tomcat-url>
-            </properties>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -98,7 +76,13 @@
             <artifactId>maven-war-plugin</artifactId>
             <version>3.3.2</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 

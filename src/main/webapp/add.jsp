@@ -6,15 +6,17 @@
 <body>
 <form method="post" action="/front-controller?command=SaveUser">
     <label>Name:
-        <input type="text" name="firstName" minlength="2" maxlength="30"><br />
+        <input required = "true" type="text" name="firstName" minlength="2"
+               maxlength="30" pattern="[a-zA-Zа-яА-Я]*" placeholder="only letters are allowed"><br />
     </label>
 
     <label>Surname:
-        <input type="text" name="lastName" minlength="2" maxlength="30"><br />
+        <input required = "true" type="text" name="lastName" minlength="2"
+               maxlength="30" pattern="[a-zA-Zа-яА-Я]*" placeholder="only letters are allowed"/><br />
     </label>
 
     <label>Age:
-        <input type="number" name="age" min="0" max="130"><br />
+        <input required = "true" type="number" name="age" min="0" max="130"><br />
     </label>
     <button type="submit">Submit</button>
 </form>

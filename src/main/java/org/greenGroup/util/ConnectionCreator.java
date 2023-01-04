@@ -20,7 +20,7 @@ public class ConnectionCreator {
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-        DB_URL = (String) properties.get("db.url");
+        DB_URL = properties.getProperty("db.url");
     }
 
     private ConnectionCreator() {}

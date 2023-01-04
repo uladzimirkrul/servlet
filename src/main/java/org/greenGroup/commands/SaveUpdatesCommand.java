@@ -1,6 +1,7 @@
 package org.greenGroup.commands;
 
 import org.greenGroup.entity.User;
+import org.greenGroup.exception.UserNotFoundException;
 import org.greenGroup.service.UserService;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,14 @@ public class SaveUpdatesCommand extends FrontCommand{
         int age = Integer.parseInt(request.getParameter("age"));
         User user = new User(name, surname, age);
         UserService userService = (UserService) request.getServletContext().getAttribute("userService");
-        userService.updateUserById(user, id);
-        redirectToList();
+        try {
+            userService.updateUserById(user, id);
+            redirectToList();
+        } catch (UserNotFoundException e) {
+            request.getSession().setAttribute("errorMessage", e.getMessage());
+            forward("error");
+        }
+
+
     }
 }
