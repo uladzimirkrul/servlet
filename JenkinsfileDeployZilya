@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven3.8.6'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sshagent(['tomcat_ssh']) {
+                    sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}/webapps/'
+                }
+            }
+        }
+    }
+}
