@@ -2,14 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Main page</title>
 </head>
 <body>
-<h1><%= "Hello, world!" %>
+<h1><%= "Welcome to users app!" %>
 </h1>
 <br/>
 <p></p>
-<a href="users-list">Users list</a>
+<a href="/front-controller?command=List">Users list</a>
 <p></p>
 </body>
 </html>

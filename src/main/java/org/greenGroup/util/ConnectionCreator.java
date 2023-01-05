@@ -15,12 +15,12 @@ public class ConnectionCreator {
         try (InputStream resourceAsStream =
                      ConnectionCreator.class.getClassLoader().getResourceAsStream("app.properties")) {
             properties.load(resourceAsStream);
-            String driverName = (String) properties.get("db.driver");
+            String driverName = properties.getProperty("db.driver");
             Class.forName(driverName);
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-        DB_URL = (String) properties.get("db.url");
+        DB_URL = properties.getProperty("db.url");
     }
 
     private ConnectionCreator() {}
