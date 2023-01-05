@@ -23,5 +23,6 @@
   </label>
   <button type="submit">Submit</button>
 </form>
+<button onclick="history.back()">Back</button>
 </body>
 </html>
