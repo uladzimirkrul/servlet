@@ -8,8 +8,9 @@
 <%@ page import="org.greenGroup.entity.User" %>
 <%@ page import="java.util.List" %>
 
-<table cellspacing="7" cellpadding="7">
+<table cellspacing="7" cellpadding="7" border="1">
     <tr>
+        <th></th>
         <th>Id</th>
         <th>Name</th>
         <th>Surname</th>
