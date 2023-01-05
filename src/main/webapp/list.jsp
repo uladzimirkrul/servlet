@@ -7,12 +7,38 @@
 <h1>Users</h1>
 <%@ page import="org.greenGroup.entity.User" %>
 <%@ page import="java.util.List" %>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Age</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+
+            <%
+                for (User user : (List<User>) session.getAttribute("users")) {
+            %>
+            <form method="post">
+            <tr>
+                <td><input type="hidden" name="id" value=<%=user.getId()%>></td>
+            <td><%=user.getId()%></td>
+            <td><%=user.getFirstName()%></td>
+            <td><%=user.getLastName()%></td>
+            <td><%=user.getAge()%></td>
+                <td><button type="submit" formaction="front-controller?command=Update">Update</button></td>
+                <td><button type="submit" formaction="front-controller?command=Update">Delete</button></td>
+            </tr>
+            </form>
+            <%
+                }
+            %>
+</table>
 <p>
-    <%
-        for (User user : (List<User>) session.getAttribute("users")) {
-            out.println("<p>" + user.toString() + "</p>");
-        }
-    %>
 </p>
 <p></p>
 <form method="post" action="front-controller?command=Update">
