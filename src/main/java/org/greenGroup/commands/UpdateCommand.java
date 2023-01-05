@@ -14,7 +14,7 @@ public class UpdateCommand extends FrontCommand{
         Long id = Long.parseLong(request.getParameter("id"));
         UserService userService = (UserService) request.getServletContext().getAttribute("userService");
         try {
-            User user = userService.getUserById(id);
+            User user = userService.readUserById(id);
             HttpSession session = request.getSession();
             session.setAttribute("id", id);
             session.setAttribute("user", user);

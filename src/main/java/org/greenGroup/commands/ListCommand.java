@@ -12,7 +12,7 @@ public class ListCommand extends FrontCommand{
     @Override
     public void process() throws ServletException, IOException {
         UserService userService = (UserService) request.getServletContext().getAttribute("userService");
-        List<User> users = userService.getAllUsers();
+        List<User> users = userService.readAllUsers();
         HttpSession session = request.getSession();
         session.setAttribute("users", users);
         forward("list");
