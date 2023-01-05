@@ -9,7 +9,7 @@
 </h1>
 <br/>
 <p></p>
-<a href="/front-controller?command=List">Users list</a>
+<a href="front-controller?command=List">Users list</a>
 <p></p>
 </body>
 </html>

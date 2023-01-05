@@ -16,7 +16,7 @@
 
 
 <p></p>
-<a href="/front-controller?command=List">Back to user list</a>
+<a href="front-controller?command=List">Back to user list</a>
 <p></p>
 
 </body>
