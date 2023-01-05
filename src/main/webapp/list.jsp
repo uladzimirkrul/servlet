@@ -4,11 +4,12 @@
     <title>Users list</title>
 </head>
 <body>
-<h1>Users</h1>
+<h1></h1>
 <%@ page import="org.greenGroup.entity.User" %>
 <%@ page import="java.util.List" %>
 
 <table cellpadding="7">
+    <caption>Users</caption>
     <tr>
         <th></th>
         <th>Id</th>
