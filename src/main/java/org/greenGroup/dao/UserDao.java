@@ -24,7 +24,7 @@ public class UserDao {
         return user;
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> readUserById(Long id) {
 
         try (Connection connection = ConnectionCreator.createConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SqlRequestConstant.SELECT_ALL_FROM_USERS_BY_ID)) {
@@ -44,7 +44,7 @@ public class UserDao {
         return Optional.empty();
     }
 
-    public List<User> getAllUsers() {
+    public List<User> readAllUsers() {
         List<User> users = new ArrayList<>();
 
         try (Connection connection = ConnectionCreator.createConnection();
@@ -90,25 +90,6 @@ public class UserDao {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
-//Нужно удалить
-    public int deleteUserByLastName(String lastName) {
-        String SQL = "DELETE FROM users WHERE last_name = ?";
-
-        int affectedRows = 0;
-
-        try (Connection connection = ConnectionCreator.createConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-            connection.setTransactionIsolation(transactionIsolation);
-            connection.setAutoCommit(false);
-            preparedStatement.setString(1,lastName);
-
-            affectedRows = preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return affectedRows;
     }
 
     public int deleteUserById(Long id) {

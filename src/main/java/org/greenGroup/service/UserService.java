@@ -29,11 +29,11 @@ public class UserService {
         }
     }
 
-    public User getUserById(Long id) {
-        return userDao.getUserById(id).orElseThrow(() -> new UserNotFoundException(id));
+    public User readUserById(Long id) {
+        return userDao.readUserById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public List<User> readAllUsers() {
+        return userDao.readAllUsers();
     }
 }
