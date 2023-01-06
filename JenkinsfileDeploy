@@ -8,13 +8,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'echo ${dbpath} >> ${WORKSPACE}/src/main/resources/app.properties'
                 sh 'mvn clean package'
             }
         }
         stage('Deploy') {
             steps {
                 sshagent(['tomcat-ssh']) {
-                    sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}/webapps/ROOT.war'
+                    sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}'
                 }
             }
         }
