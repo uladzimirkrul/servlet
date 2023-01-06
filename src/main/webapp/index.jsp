@@ -5,7 +5,7 @@
     <title>Main page</title>
 </head>
 <body>
-<h1><%= "Welcome to users app!" %>
+<h1><%= "Welcome to users application!" %>
 </h1>
 <br/>
 <p></p>
