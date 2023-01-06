@@ -15,7 +15,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(['tomcat-ssh']) {
-                    sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}/webapps/ROOT.war'
+                    sh 'scp ${WORKSPACE}/target/*.war ${tomcatpath}'
                 }
             }
         }
